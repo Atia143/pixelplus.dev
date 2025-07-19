@@ -1,0 +1,85 @@
+<!-- index.html -->
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <!-- Google Fonts: Inter & Assistant -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Assistant:wght@400;700&display=swap" rel="stylesheet">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO & Branding -->
+    <title>Pixelplus.dev | דפי נחיתה</title>
+    <meta name="keywords" content="דפי נחיתה, עיצוב פרימיום, עמוד נחיתה, Pixelplus.dev, בניית אתרים, SEO, רספונסיבי, עיצוב אתרים, עיצוב ממיר, UI UX">
+    <meta name="author" content="Pixelplus.dev - יובל אטיה">
+    <meta name="description" content="אנחנו ב־Pixelplus.dev בונים דפי נחיתה מעוצבים ויעילים במיוחד – שמניעים לפעולה ומביאים תוצאות. רספונסיבי, מותאם ל-SEO ויוקרתי.">
+
+    <!-- Canonical & Sitemap -->
+    <link rel="canonical" href="https://pixelplus.dev/" />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+
+    <!-- Open Graph for Social Media -->
+    <meta property="og:title" content="Pixelplus.dev | דפי נחיתה שמביאים תוצאות" />
+    <meta property="og:description" content="Pixelplus.dev מתמחים בבניית דפי נחיתה מעוצבים וממירים לעסקים. אסטרטגיה, ביצועים מוכחים, תוצאה. מעל 130 דפים." />
+    <meta property="og:image" content="/og-preview.jpg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://pixelplus.dev/" />
+
+    <!-- Robots -->
+    <meta name="robots" content="index, follow" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Pixelplus.dev - דפי נחיתה",
+      "image": "https://pixelplus.dev/og-preview.jpg",
+      "url": "https://pixelplus.dev/",
+      "description": "Pixelplus.dev מתמחים בבניית דפי נחיתה יוקרתיים עם עיצוב ממיר, פיתוח מתקדם ותוצאות אמיתיות. אנחנו עוזרים לעסקים להצליח אונליין.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "IL"
+      },
+      "areaServed": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "IL"
+        }
+      },
+      "keywords": "דפי נחיתה, Pixelplus.dev, עיצוב ממיר, בניית אתרים, עיצוב יוקרתי, בניית דפים, עוד לידים, המרות באתר, UX/UI"
+    }
+    </script>
+
+    <!-- Google Analytics 4 (GA4) -->
+    <!-- Measurement ID: G-9266421599 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9266421599"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-9266421599');
+    </script>
+
+    <!-- Base Styles -->
+    <style>
+      html {
+        background-color: #0B0F1C;
+        font-family: 'Assistant', 'Inter', Arial, sans-serif;
+      }
+      body {
+        background-color: #0B0F1C;
+        min-height: 100vh;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

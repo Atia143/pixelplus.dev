@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap');
+/* Tailwind Base Styles */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+html {
+  scroll-behavior: smooth;
+}
+.font-poppins {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Custom Styles */
+body {
+  font-family: 'Assistant', sans-serif;
+}
+.background-fix {
+  @apply fixed top-0 left-0 w-full h-full -z-50 bg-[#0B0F1C];
+}
+@layer utilities {
+  .text-techBlue {
+    color: #325FFB;
+  }
+  .text-techBlueLight {
+    color: #508FFF;
+  }
+  .text-lightGray {
+    color: #DCDDDD;
+  }
+  .text-deepDark {
+    color: #071116;
+  }
+
+  .bg-techBlue {
+    background-color: #325FFB;
+  }
+  .bg-techBlueLight {
+    background-color: #508FFF;
+  }
+  .bg-lightGray {
+    background-color: #DCDDDD;
+  }
+  .bg-deepDark {
+    background-color: #071116;
+  }
+
+  /* עדכון הצבע הקיים שנקרא brandBlue */
+  .text-brandBlue {
+    color: #325FFB;
+  }
+
+  @keyframes bounce-slow {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  .animate-bounce-slow {
+    animation: bounce-slow 5s ease-in-out infinite;
+  }
+
+  @keyframes glow-soft-pulse {
+    0% {
+      text-shadow: 0 0 2px rgba(80, 143, 255, 0.3);
+      transform: scale(1);
+    }
+    50% {
+      text-shadow: 0 0 10px rgba(80, 143, 255, 0.6);
+      transform: scale(1.04);
+    }
+    100% {
+      text-shadow: 0 0 2px rgba(80, 143, 255, 0.3);
+      transform: scale(1);
+    }
+  }
+
+  .animate-glow-soft-pulse {
+    animation: glow-soft-pulse 4.5s ease-in-out infinite;
+  }
+
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-4deg); }
+    50% { transform: rotate(1deg); }
+  }
+
+  .animate-wiggle {
+    animation: wiggle 1s ease-in-out infinite;
+  }
+
+  @keyframes pulse-slow {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 0.85;
+    }
+  }
+
+  .animate-pulse-slow {
+    animation: pulse-slow 6s ease-in-out infinite;
+  }
+}
+@keyframes float {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
+@keyframes glow {
+  0%, 100% {
+    text-shadow: 0 0 0px transparent;
+  }
+  50% {
+    text-shadow: 0 2px 12px rgba(255, 255, 255, 0.12);
+  }
+}
+.animate-glow {
+  animation: glow 3s ease-in-out infinite;
+}
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.animate-float-slow {
+  animation: floatSlow 6s ease-in-out infinite;
+}
+@keyframes pulse-subtle {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+.animate-subtle-pulse {
+  animation: pulse-subtle 4s infinite;
+}

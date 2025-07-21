@@ -3,8 +3,7 @@ import React, { useState, useRef } from "react";
 import { HiOutlineMail, HiOutlinePhone, HiOutlineUser, HiCheckCircle, HiX } from "react-icons/hi";
 
 /**
- * טופס לידים פרימיום – UX חד, נגישות, אייקונים, אנימציית שליחה, הודעת הצלחה עם קונפטי
- * כולל כפתור X סגירה ממוקם נכון, רספונסיבי, תמיד בתוך גבולות הטופס
+ * טופס לידים מוקטן – רספונסיבי, לא נחתך, כפתור X תמיד מוצג, UX מוקפד
  */
 export default function ContactForm({ onProgress, onClose }) {
   const [fields, setFields] = useState({ name: "", email: "", phone: "" });
@@ -82,7 +81,7 @@ export default function ContactForm({ onProgress, onClose }) {
   if (sent) {
     return (
       <div
-        className="flex flex-col items-center justify-center py-12 animate-fade-in-up outline-none relative"
+        className="flex flex-col items-center justify-center py-8 animate-fade-in-up outline-none relative min-h-[220px] sm:min-h-[260px]"
         tabIndex={-1}
         ref={successRef}
         aria-live="polite"
@@ -93,16 +92,16 @@ export default function ContactForm({ onProgress, onClose }) {
             type="button"
             onClick={onClose}
             aria-label="סגור טופס"
-            className="absolute top-3 right-3 sm:top-4 sm:right-4 z-20 bg-white/10 hover:bg-white/20 text-white rounded-full p-2 transition focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="absolute top-2 left-2 z-30 bg-white/10 hover:bg-white/20 text-white rounded-full p-2 transition focus:outline-none focus:ring-2 focus:ring-blue-400"
             style={{
               boxShadow: "0 2px 8px 0 rgba(0,0,0,0.10)"
             }}
           >
-            <HiX className="w-6 h-6" />
+            <HiX className="w-5 h-5" />
           </button>
         )}
         {/* קונפטי SVG */}
-        <svg className="absolute w-64 h-32 pointer-events-none -top-8 left-1/2 -translate-x-1/2" viewBox="0 0 256 64" fill="none">
+        <svg className="absolute w-40 h-20 pointer-events-none -top-4 left-1/2 -translate-x-1/2" viewBox="0 0 256 64" fill="none">
           <circle cx="30" cy="20" r="4" fill="#3B82F6" />
           <circle cx="80" cy="10" r="3" fill="#8B5CF6" />
           <circle cx="120" cy="30" r="5" fill="#F6921E" />
@@ -110,8 +109,8 @@ export default function ContactForm({ onProgress, onClose }) {
           <circle cx="170" cy="40" r="3" fill="#F472B6" />
           <circle cx="220" cy="12" r="2" fill="#F59E42" />
         </svg>
-        <HiCheckCircle className="text-green-400 text-6xl animate-bounce z-10" />
-        <div className="mt-6 text-2xl font-bold text-white z-10">הפרטים נשלחו בהצלחה!</div>
+        <HiCheckCircle className="text-green-400 text-4xl animate-bounce z-10" />
+        <div className="mt-4 text-lg font-bold text-white z-10">הפרטים נשלחו בהצלחה!</div>
       </div>
     );
   }
@@ -119,50 +118,51 @@ export default function ContactForm({ onProgress, onClose }) {
   return (
     <form
       dir="rtl"
-      className="max-w-md mx-auto bg-gradient-to-br from-[#181f2a] to-[#232946] rounded-2xl shadow-xl p-8 animate-fade-in font-sans relative"
+      className="w-full max-w-xs xs:max-w-sm mx-auto bg-gradient-to-br from-[#181f2a] to-[#232946] rounded-xl shadow-lg p-3 xs:p-4 sm:p-5 animate-fade-in font-sans relative overflow-y-auto max-h-[90vh] min-h-[320px]"
       onSubmit={handleSubmit}
       aria-label="טופס יצירת קשר"
       autoComplete="off"
+      style={{
+        boxSizing: "border-box",
+      }}
     >
-      {/* כפתור X סגירה */}
+      {/* כפתור X סגירה – תמיד מוצג, תמיד בגבול העליון-שמאלי גם במובייל */}
       {onClose && (
         <button
           type="button"
           onClick={onClose}
           aria-label="סגור טופס"
-          className="absolute top-3 right-3 sm:top-4 sm:right-4 z-20 bg-white/10 hover:bg-white/20 text-white rounded-full p-2 transition focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="absolute top-2 left-2 z-30 bg-white/10 hover:bg-white/20 text-white rounded-full p-2 transition focus:outline-none focus:ring-2 focus:ring-blue-400"
           style={{
             boxShadow: "0 2px 8px 0 rgba(0,0,0,0.10)"
           }}
         >
-          <HiX className="w-6 h-6" />
+          <HiX className="w-5 h-5" />
         </button>
       )}
 
-      <div className="max-w-md w-full mx-auto text-center mb-8 px-4 sm:px-0" dir="rtl">
-        {/* כותרת עם הדגשה צבעונית, רספונסיבית */}
-        <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight text-white mb-2 animate-fade-in-down">
+      {/* כותרת – קטנה, לא נחתכת, שומרת על גודל גם במסכים צרים */}
+      <div className="w-full mx-auto text-center mb-4 px-1 xs:px-2" dir="rtl">
+        <h2 className="text-base xs:text-lg sm:text-xl font-extrabold tracking-tight leading-tight text-white mb-1 animate-fade-in-down break-words">
           Your Next{" "}
           <span className="bg-gradient-to-r from-[#6CE7F3] via-[#96B3FF] to-[#F0B6FF] bg-clip-text text-transparent">
             Customer
           </span>{" "}
           Starts Here
         </h2>
-        {/* פס גרדיאנט דקורטיבי, רספונסיבי */}
-        <div className="w-20 xs:w-24 h-1 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400 mb-5 sm:mb-6" />
-        {/* תת-כותרת רספונסיבית */}
-        <p className="text-base xs:text-lg sm:text-xl text-[#e0e6f7] leading-relaxed mb-2 animate-fade-in-down delay-100">
-          דף הנחיתה הבא של העסק שלך.<br className="hidden xs:block" />
+        <div className="w-14 xs:w-16 h-1 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400 mb-2" />
+        <p className="text-xs xs:text-sm text-[#e0e6f7] leading-relaxed mb-1 animate-fade-in-down delay-100">
+          דף הנחיתה הבא של העסק שלך.
         </p>
       </div>
 
       {/* שדה שם מלא */}
-      <div className="mb-7 relative group">
+      <div className="mb-4 relative group">
         <label
           htmlFor="name"
-          className={`absolute right-10 top-1/2 -translate-y-1/2 text-[#bfc8e6] pointer-events-none transition-all duration-200
-            ${fields.name ? "text-xs top-2 translate-y-0" : "text-base"}
-            group-focus-within:text-xs group-focus-within:top-2 group-focus-within:translate-y-0
+          className={`absolute right-9 top-1/2 -translate-y-1/2 text-[#bfc8e6] pointer-events-none transition-all duration-200
+            ${fields.name ? "text-xs top-1.5 translate-y-0" : "text-sm"}
+            group-focus-within:text-xs group-focus-within:top-1.5 group-focus-within:translate-y-0
           `}
         >
           שם מלא
@@ -173,28 +173,28 @@ export default function ContactForm({ onProgress, onClose }) {
           type="text"
           autoComplete="name"
           ref={nameInput}
-          className={`w-full pr-12 pl-4 py-4 bg-white/10 border ${errors.name ? "border-red-500" : "border-[#3a4a6b]"} rounded-xl text-white text-lg placeholder-transparent focus:outline-none focus:border-blue-400 transition-all font-medium`}
+          className={`w-full pr-10 pl-3 py-2 bg-white/10 border ${errors.name ? "border-red-500" : "border-[#3a4a6b]"} rounded-lg text-white text-base placeholder-transparent focus:outline-none focus:border-blue-400 transition-all font-medium`}
           value={fields.name}
           onChange={handleChange}
           aria-invalid={!!errors.name}
           aria-describedby={errors.name ? "name-error" : undefined}
           disabled={submitting}
         />
-        <HiOutlineUser className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-400 text-2xl pointer-events-none" />
+        <HiOutlineUser className="absolute right-2 top-1/2 -translate-y-1/2 text-blue-400 text-xl pointer-events-none" />
         {errors.name && (
-          <span id="name-error" className="block mt-2 text-sm text-red-500 text-right animate-fade-in" aria-live="polite">
+          <span id="name-error" className="block mt-1 text-xs text-red-500 text-right animate-fade-in" aria-live="polite">
             {errors.name}
           </span>
         )}
       </div>
 
       {/* שדה מייל */}
-      <div className="mb-7 relative group">
+      <div className="mb-4 relative group">
         <label
           htmlFor="email"
-          className={`absolute right-12 top-1/2 -translate-y-1/2 text-[#bfc8e6] pointer-events-none transition-all duration-200
-            ${fields.email ? "text-xs top-2 translate-y-0" : "text-base"}
-            group-focus-within:text-xs group-focus-within:top-2 group-focus-within:translate-y-0
+          className={`absolute right-10 top-1/2 -translate-y-1/2 text-[#bfc8e6] pointer-events-none transition-all duration-200
+            ${fields.email ? "text-xs top-1.5 translate-y-0" : "text-sm"}
+            group-focus-within:text-xs group-focus-within:top-1.5 group-focus-within:translate-y-0
           `}
         >
           מייל
@@ -204,28 +204,28 @@ export default function ContactForm({ onProgress, onClose }) {
           name="email"
           type="email"
           autoComplete="email"
-          className={`w-full pr-12 pl-4 py-4 bg-white/10 border ${errors.email ? "border-red-500" : "border-[#3a4a6b]"} rounded-xl text-white text-lg placeholder-transparent focus:outline-none focus:border-blue-400 transition-all font-medium`}
+          className={`w-full pr-10 pl-3 py-2 bg-white/10 border ${errors.email ? "border-red-500" : "border-[#3a4a6b]"} rounded-lg text-white text-base placeholder-transparent focus:outline-none focus:border-blue-400 transition-all font-medium`}
           value={fields.email}
           onChange={handleChange}
           aria-invalid={!!errors.email}
           aria-describedby={errors.email ? "email-error" : undefined}
           disabled={submitting}
         />
-        <HiOutlineMail className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-400 text-2xl pointer-events-none" />
+        <HiOutlineMail className="absolute right-2 top-1/2 -translate-y-1/2 text-blue-400 text-xl pointer-events-none" />
         {errors.email && (
-          <span id="email-error" className="block mt-2 text-sm text-red-500 text-right animate-fade-in" aria-live="polite">
+          <span id="email-error" className="block mt-1 text-xs text-red-500 text-right animate-fade-in" aria-live="polite">
             {errors.email}
           </span>
         )}
       </div>
 
       {/* שדה טלפון */}
-      <div className="mb-10 relative group">
+      <div className="mb-5 relative group">
         <label
           htmlFor="phone"
-          className={`absolute right-12 top-1/2 -translate-y-1/2 text-[#bfc8e6] pointer-events-none transition-all duration-200
-            ${fields.phone ? "text-xs top-2 translate-y-0" : "text-base"}
-            group-focus-within:text-xs group-focus-within:top-2 group-focus-within:translate-y-0
+          className={`absolute right-10 top-1/2 -translate-y-1/2 text-[#bfc8e6] pointer-events-none transition-all duration-200
+            ${fields.phone ? "text-xs top-1.5 translate-y-0" : "text-sm"}
+            group-focus-within:text-xs group-focus-within:top-1.5 group-focus-within:translate-y-0
           `}
         >
           מספר טלפון
@@ -235,16 +235,16 @@ export default function ContactForm({ onProgress, onClose }) {
           name="phone"
           type="tel"
           autoComplete="tel"
-          className={`w-full pr-12 pl-4 py-4 bg-white/10 border ${errors.phone ? "border-red-500" : "border-[#3a4a6b]"} rounded-xl text-white text-lg placeholder-transparent focus:outline-none focus:border-blue-400 transition-all font-medium`}
+          className={`w-full pr-10 pl-3 py-2 bg-white/10 border ${errors.phone ? "border-red-500" : "border-[#3a4a6b]"} rounded-lg text-white text-base placeholder-transparent focus:outline-none focus:border-blue-400 transition-all font-medium`}
           value={fields.phone}
           onChange={handleChange}
           aria-invalid={!!errors.phone}
           aria-describedby={errors.phone ? "phone-error" : undefined}
           disabled={submitting}
         />
-        <HiOutlinePhone className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-400 text-2xl pointer-events-none" />
+        <HiOutlinePhone className="absolute right-2 top-1/2 -translate-y-1/2 text-blue-400 text-xl pointer-events-none" />
         {errors.phone && (
-          <span id="phone-error" className="block mt-2 text-sm text-red-500 text-right animate-fade-in" aria-live="polite">
+          <span id="phone-error" className="block mt-1 text-xs text-red-500 text-right animate-fade-in" aria-live="polite">
             {errors.phone}
           </span>
         )}
@@ -253,7 +253,7 @@ export default function ContactForm({ onProgress, onClose }) {
       {/* כפתור שליחה */}
       <button
         type="submit"
-        className="w-full py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-500 text-white font-extrabold text-xl shadow-xl border-2 border-blue-500 transition-all duration-200 hover:scale-105 hover:from-blue-700 hover:to-indigo-600 focus:outline-none focus:ring-2 focus:ring-blue-400 active:scale-95 animate-fade-in-up tracking-tight flex items-center justify-center gap-2"
+        className="w-full py-2 rounded-xl bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-500 text-white font-extrabold text-base shadow-lg border-2 border-blue-500 transition-all duration-200 hover:scale-105 hover:from-blue-700 hover:to-indigo-600 focus:outline-none focus:ring-2 focus:ring-blue-400 active:scale-95 animate-fade-in-up tracking-tight flex items-center justify-center gap-2"
         disabled={submitting}
         aria-busy={submitting}
       >
@@ -268,13 +268,16 @@ export default function ContactForm({ onProgress, onClose }) {
       </button>
 
       {/* מסר אמון */}
-      <div className="flex text-right text-sm text-[#bfc8e6] gap-2 animate-fade-in-up delay-100 mt-4">
-        <HiCheckCircle className="text-lg" />
+      <div className="flex text-right text-xs text-[#bfc8e6] gap-1 animate-fade-in-up delay-100 mt-2">
+        <HiCheckCircle className="text-base" />
         <span>הפרטים שמורים איתנו בלבד.</span>
       </div>
 
       {/* פוטר */}
-      <footer className="mt-10 text-center text-xs text-[#bfc8e6] tracking-wide">
+      <footer className="mt-5 text-center text-[10px] text-[#bfc8e6] tracking-wide">
+        <span className="inline-block align-middle mr-1">
+          <HiOutlineMail className="inline w-4 h-4" />
+        </span>
         Pixelplus.dev • כל הזכויות שמורות ליובל אטיה © 2025
       </footer>
 
@@ -282,8 +285,8 @@ export default function ContactForm({ onProgress, onClose }) {
       <style>
         {`
         .loader-dot {
-          width: 1.5em;
-          height: 1.5em;
+          width: 1.2em;
+          height: 1.2em;
           border-radius: 50%;
           background: linear-gradient(90deg, #3B82F6 0%, #8B5CF6 100%);
           display: inline-block;

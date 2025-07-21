@@ -1,5 +1,4 @@
 // ContactForm.jsx
-
 import React, { useState, useRef } from "react";
 import { HiOutlineMail, HiOutlinePhone, HiOutlineUser, HiCheckCircle, HiX } from "react-icons/hi";
 
@@ -94,7 +93,7 @@ export default function ContactForm({ onProgress, onClose }) {
             type="button"
             onClick={onClose}
             aria-label="סגור טופס"
-            className="absolute top-3 left-3 sm:top-4 sm:left-4 z-20 bg-white/10 hover:bg-white/20 text-white rounded-full p-2 transition focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="absolute top-3 right-3 sm:top-4 sm:right-4 z-20 bg-white/10 hover:bg-white/20 text-white rounded-full p-2 transition focus:outline-none focus:ring-2 focus:ring-blue-400"
             style={{
               boxShadow: "0 2px 8px 0 rgba(0,0,0,0.10)"
             }}
@@ -131,7 +130,7 @@ export default function ContactForm({ onProgress, onClose }) {
           type="button"
           onClick={onClose}
           aria-label="סגור טופס"
-          className="absolute top-3 left-3 sm:top-4 sm:left-4 z-20 bg-white/10 hover:bg-white/20 text-white rounded-full p-2 transition focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 z-20 bg-white/10 hover:bg-white/20 text-white rounded-full p-2 transition focus:outline-none focus:ring-2 focus:ring-blue-400"
           style={{
             boxShadow: "0 2px 8px 0 rgba(0,0,0,0.10)"
           }}

@@ -1,0 +1,26 @@
+# robots.txt for pixelplus.dev
+# מאפשר סריקה של כל האתר, חוסם עמודי ניהול/טיוטות, מאפשר סריקת קבצי JS/CSS, כולל מפת אתר
+
+User-agent: *
+# אפשר סריקה לכל האתר
+Allow: /
+
+# חסום עמודי ניהול/פנימיים (אם קיימים)
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /drafts/
+Disallow: /private/
+Disallow: /tmp/
+Disallow: /test/
+Disallow: /cgi-bin/
+
+# חסום עמודי תוצאות חיפוש או שליחת טפסים (אם קיימים)
+Disallow: /search
+Disallow: /form-submit
+
+# אפשר סריקה של קבצי JS/CSS (חשוב לאתרי React/Tailwind)
+Allow: /*.js$
+Allow: /*.css$
+
+# מפת אתר (אם קיימת)
+Sitemap: https://pixelplus.dev/sitemap.xml

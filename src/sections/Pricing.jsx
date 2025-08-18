@@ -1,10 +1,208 @@
 // src/sections/Pricing.jsx
-import { FaGoogle, FaUserFriends, FaRocket, FaGem, FaMagic } from "react-icons/fa";
+import { useState } from "react";
+import { FaGoogle, FaUserFriends, FaMagic, FaRocket, FaGem, FaCrown } from "react-icons/fa";
+import { MdOutlineAutoGraph } from "react-icons/md";
+import { GiArtificialIntelligence } from "react-icons/gi";
+
+/**
+ * ROI Calculator – גרסה מתקדמת
+ * טופס אינטראקטיבי עם תוצאה מיידית, CTA ממיר, מיתוג AI, ואנימציה.
+ */
+function ROIcalculator() {
+  const [leads, setLeads] = useState("");
+  const [closeRate, setCloseRate] = useState("");
+  const [dealValue, setDealValue] = useState("");
+  const [showResult, setShowResult] = useState(false);
+  const [error, setError] = useState("");
+
+  // חישוב ROI
+  const calcROI = () => {
+    const leadsNum = Number(leads);
+    const closeNum = Number(closeRate) / 100;
+    const dealNum = Number(dealValue);
+    if (!leadsNum || !closeNum || !dealNum) return null;
+    const customers = Math.round(leadsNum * closeNum);
+    const revenue = customers * dealNum;
+    const cost = 2500; // מחיר חבילת Starter
+    const roi = ((revenue - cost) / cost) * 100;
+    return { customers, revenue, roi, cost };
+  };
+
+  const result = calcROI();
+
+  /** איפוס הטופס והתוצאה */
+  const handleReset = () => {
+    setLeads("");
+    setCloseRate("");
+    setDealValue("");
+    setShowResult(false);
+    setError("");
+  };
+
+  /** שליחת הטופס */
+  const handleSubmit = e => {
+    e.preventDefault();
+    if (!leads || !closeRate || !dealValue) {
+      setError("נא למלא את כל השדות");
+      setShowResult(false);
+      return;
+    }
+    if (Number(closeRate) > 100 || Number(closeRate) < 1) {
+      setError("שיעור סגירה חייב להיות בין 1 ל-100");
+      setShowResult(false);
+      return;
+    }
+    setError("");
+    setShowResult(true);
+  };
+
+  return (
+    <div className="max-w-md mx-auto bg-white/10 backdrop-blur rounded-2xl shadow-xl p-8 mt-8 mb-8">
+      <h3 className="text-xl font-bold text-cyan-300 mb-4 text-center flex items-center justify-center gap-2">
+        <MdOutlineAutoGraph className="w-6 h-6 text-cyan-300" />
+        מחשבון ROI – כמה תרוויח מדף נחיתה ממיר?
+      </h3>
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit} autoComplete="off">
+        <label className="flex flex-col text-sm text-gray-200">
+          מספר לידים צפוי בחודש
+          <input
+            type="number"
+            min="1"
+            required
+            value={leads}
+            onChange={e => setLeads(e.target.value)}
+            className="mt-1 px-3 py-2 rounded bg-white/20 text-white border border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-300"
+            placeholder="לדוג' 50"
+            aria-label="מספר לידים צפוי בחודש"
+          />
+        </label>
+        <label className="flex flex-col text-sm text-gray-200">
+          שיעור סגירה (%)
+          <input
+            type="number"
+            min="1"
+            max="100"
+            required
+            value={closeRate}
+            onChange={e => setCloseRate(e.target.value)}
+            className="mt-1 px-3 py-2 rounded bg-white/20 text-white border border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-300"
+            placeholder="לדוג' 10"
+            aria-label="שיעור סגירה באחוזים"
+          />
+        </label>
+        <label className="flex flex-col text-sm text-gray-200">
+          ערך עסקה ממוצע (₪)
+          <input
+            type="number"
+            min="1"
+            required
+            value={dealValue}
+            onChange={e => setDealValue(e.target.value)}
+            className="mt-1 px-3 py-2 rounded bg-white/20 text-white border border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-300"
+            placeholder="לדוג' 1200"
+            aria-label="ערך עסקה ממוצע"
+          />
+        </label>
+        {error && (
+          <div className="text-xs text-red-400 text-center mt-2">{error}</div>
+        )}
+        <div className="flex gap-2 mt-2">
+          <button
+            type="submit"
+            className="flex-1 px-6 py-2 rounded-full bg-gradient-to-l from-[#6CE7F3] via-[#96B3FF] to-[#F0B6FF] text-black font-bold shadow-lg hover:from-[#F0B6FF] hover:to-[#6CE7F3] transition"
+          >
+            חשב ROI
+          </button>
+          <button
+            type="button"
+            onClick={handleReset}
+            className="flex-1 px-6 py-2 rounded-full bg-gray-700 text-white font-bold shadow-lg hover:bg-gray-600 transition"
+          >
+            איפוס
+          </button>
+        </div>
+      </form>
+
+      {/* תוצאה מיידית + CTA ממיר + מיתוג AI */}
+      {showResult && result && (
+        <div className="mt-6 p-4 rounded-xl bg-white/20 text-white text-center animate-fade-in">
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <GiArtificialIntelligence className="w-6 h-6 text-cyan-300 animate-spin-slow" />
+            <span className="text-xs text-cyan-200 font-semibold">
+              החישוב מבוצע ע״י מנוע AI מתקדם
+            </span>
+          </div>
+          <div className="text-lg font-bold mb-2 text-cyan-200">
+            רווח צפוי: ₪{result.revenue.toLocaleString()}
+          </div>
+          <div className="flex justify-center items-center mb-2">
+            {/* גרף אנימציה – המחשה ויזואלית */}
+            <svg width="120" height="40" viewBox="0 0 120 40" fill="none">
+              <path
+                d="M5 35 Q30 10 60 30 Q90 50 115 5"
+                stroke="#6CE7F3"
+                strokeWidth="3"
+                fill="none"
+                className="animate-graph"
+              />
+              <circle cx="115" cy="5" r="4" fill="#6CE7F3" />
+            </svg>
+          </div>
+          <div className="text-base mb-1">
+            לקוחות חדשים: <span className="font-bold">{result.customers}</span>
+          </div>
+          <div className="text-base mb-1">
+            עלות דף נחיתה: <span className="font-bold">₪{result.cost}</span>
+          </div>
+          <div className="text-base mb-1">
+            החזר השקעה (ROI): <span className="font-bold text-green-300">{result.roi.toFixed(1)}%</span>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+              if (window.gtag) {
+                window.gtag('event', 'roi_cta_click', {
+                  event_category: 'ROI Calculator',
+                  event_label: 'Book Consultation',
+                  value: result.roi
+                });
+              }
+            }}
+            className="mt-4 px-6 py-2 rounded-full bg-gradient-to-l from-[#6CE7F3] via-[#96B3FF] to-[#F0B6FF] text-black font-bold shadow-lg hover:from-[#F0B6FF] hover:to-[#6CE7F3] transition"
+          >
+            קבע שיחת ייעוץ וחסוך עד ₪{(result.revenue - result.cost).toLocaleString()} בשנה
+          </button>
+          <div className="text-xs text-gray-200 mt-2">
+            *החישוב להמחשה בלבד. תוצאות בפועל תלויות בביצועי העסק.
+          </div>
+        </div>
+      )}
+      {/* אנימציה מותאמת */}
+      <style>
+        {`
+        @keyframes graph {
+          0% { stroke-dasharray: 0, 200; }
+          100% { stroke-dasharray: 200, 0; }
+        }
+        .animate-graph {
+          stroke-dasharray: 0, 200;
+          animation: graph 1.2s cubic-bezier(.4,0,.2,1) forwards;
+        }
+        .animate-spin-slow {
+          animation: spin 2.5s linear infinite;
+        }
+        @keyframes spin {
+          100% { transform: rotate(360deg);}
+        }
+        `}
+      </style>
+    </div>
+  );
+}
 
 /**
  * Scrolls smoothly to the contact form and saves the selected plan in localStorage.
- * Also sends a GA4 event if available.
- * @param {string} planName - The plan identifier (e.g., "Starter", "Pro", "PixelElite")
  */
 function scrollToContact(planName) {
   if (planName) {
@@ -12,11 +210,9 @@ function scrollToContact(planName) {
       localStorage.setItem("selectedPlan", planName);
     } catch (e) {}
   }
-  // Scroll smoothly to the contact form (fallback to #cta-pricing if not found)
   const el = document.getElementById("contact-final") || document.getElementById("cta-pricing");
   if (el) {
     el.scrollIntoView({ behavior: "smooth" });
-    // Optional: send GA4 event
     if (window.gtag) {
       window.gtag('event', 'select_plan', {
         event_category: 'Pricing',
@@ -25,7 +221,6 @@ function scrollToContact(planName) {
       });
     }
   } else {
-    // Fallback: jump to contact section if anchor missing
     window.location.hash = "#contact";
   }
 }
@@ -33,23 +228,16 @@ function scrollToContact(planName) {
 const plans = [
   {
     name: "Starter",
-    price: "$500",
+    price: "₪2,500",
+    description: "הפתרון המהיר והמשתלם לעסק קטן או יזם בתחילת הדרך.",
     features: [
-      { text: "עיצוב בהתאמה אישית", icon: <FaMagic className="text-blue-400 w-6 h-6" /> },
-      { text: "טופס לידים בסיסי", icon: (
-        <svg className="w-6 h-6 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <rect x="4" y="4" width="16" height="16" rx="4" strokeWidth="2" />
-          <path d="M8 8h8M8 12h8M8 16h4" strokeWidth="2" strokeLinecap="round" />
-        </svg>
-      ) },
-      { text: "רספונסיביות מלאה", icon: (
-        <svg className="w-6 h-6 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <rect x="3" y="5" width="18" height="14" rx="2" strokeWidth="2" />
-          <rect x="8" y="17" width="8" height="2" rx="1" strokeWidth="2" />
-        </svg>
-      ) },
+      { text: "דף נחיתה מעוצב בהתאמה אישית", icon: <FaMagic className="text-blue-400 w-6 h-6" /> },
+      { text: "טופס לידים חכם", icon: <FaRocket className="text-blue-300 w-6 h-6" /> },
+      { text: "רספונסיביות מלאה", icon: <FaRocket className="text-blue-300 w-6 h-6" /> },
+      { text: "חיבור לכלי מדידה", icon: <FaGoogle className="text-blue-400 w-6 h-6" /> },
+      { text: "14 ימי תמיכה טכנית", icon: <FaUserFriends className="text-blue-400 w-6 h-6" /> },
     ],
-    cta: "בחר בחבילת Starter",
+    cta: "התחל עכשיו",
     color: "from-blue-600 to-blue-400",
     border: "border-blue-400",
     highlight: false,
@@ -60,80 +248,47 @@ const plans = [
     planId: "Starter",
   },
   {
-    name: "Pro",
-    price: "$800",
+    name: "Growth",
+    price: "₪4,200",
+    description: "לעסקים שרוצים לבלוט, לגדול, ולמקסם תוצאות.",
     features: [
-      { text: "הכל מ־Starter", icon: (
-        <svg className="w-6 h-6 text-pink-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path d="M12 2v20M2 12h20" strokeWidth="2" strokeLinecap="round" />
-        </svg>
-      ) },
-      { text: "הטמעת SEO", icon: <FaRocket className="text-pink-200 w-6 h-6" /> },
-      { text: "אנימציות מותאמות", icon: (
-        <svg className="w-6 h-6 text-pink-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <circle cx="12" cy="12" r="10" strokeWidth="2" />
-          <path d="M12 6v6l4 2" strokeWidth="2" strokeLinecap="round" />
-        </svg>
-      ) },
-      { text: "ללא הגבלת תוכן", icon: (
-        <svg className="w-6 h-6 text-pink-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path d="M12 4v16M4 12h16" strokeWidth="2" strokeLinecap="round" />
-        </svg>
-      ) },
+      { text: "הכל מ־Starter", icon: <FaMagic className="text-pink-200 w-6 h-6" /> },
+      { text: "קופי שיווקי מבוסס AI", icon: <GiArtificialIntelligence className="text-pink-200 w-6 h-6" /> },
+      { text: "אופטימיזציית SEO", icon: <FaRocket className="text-pink-200 w-6 h-6" /> },
+      { text: "אנימציות מתקדמות", icon: <FaRocket className="text-pink-200 w-6 h-6" /> },
+      { text: "אינטגרציה ל-CRM", icon: <FaUserFriends className="text-pink-200 w-6 h-6" /> },
+      { text: "30 ימי תמיכה טכנית", icon: <FaUserFriends className="text-pink-200 w-6 h-6" /> },
     ],
-    cta: "בחר בחבילת Pro",
+    cta: "אני רוצה לגדול",
     color: "from-pink-500 to-purple-500",
     border: "border-pink-400",
     highlight: true,
     badge: "הכי משתלם",
-    aria: "בחר בחבילת Pro ועבור לטופס יצירת קשר",
+    aria: "בחר בחבילת Growth ועבור לטופס יצירת קשר",
     animation: "animate-fade-in-up",
     delay: "delay-100",
-    fomo: (
-      <span>
-        <span className="inline-block bg-yellow-300 text-yellow-900 px-2 py-0.5 rounded font-bold ml-1 animate-pulse">
-          מחיר השקה – $500 בלבד!
-        </span>
-        <span className="inline-block text-white/90 ml-1">
-          ל־4 הראשונים בלבד. <span className="font-bold">נשארו: 4/4</span>
-        </span>
-      </span>
-    ),
-    planId: "Pro",
+    planId: "Growth",
   },
   {
-    name: "Pixel Elite",
-    price: "$1600",
+    name: "Custom",
+    price: "החל מ־₪7,000",
+    description: "מותאם אישית למותגים, סטארטאפים, או מי שרוצה פתרון ייחודי.",
     features: [
-      { text: "הכל מ־Pro", icon: <FaGem className="text-yellow-400 w-6 h-6" /> },
-      { text: "אסטרטגיית שיפור המרות", icon: (
-        <svg className="w-6 h-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path d="M4 17l6-6 4 4 6-6" strokeWidth="2" strokeLinecap="round" />
-        </svg>
-      ) },
-      { text: "ניתוח ביצועים והפקת תובנות", icon: (
-        <svg className="w-6 h-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <circle cx="12" cy="12" r="10" strokeWidth="2" />
-          <path d="M12 8v4l3 3" strokeWidth="2" strokeLinecap="round" />
-        </svg>
-      ) },
-      { text: "אפשרות ל־A/B Testing", icon: (
-        <svg className="w-6 h-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <rect x="4" y="4" width="16" height="16" rx="4" strokeWidth="2" />
-          <path d="M8 8h8M8 16h8" strokeWidth="2" strokeLinecap="round" />
-        </svg>
-      ) },
+      { text: "אפיון אסטרטגי מלא", icon: <FaCrown className="text-yellow-400 w-6 h-6" /> },
+      { text: "UI/UX ייחודי", icon: <FaGem className="text-yellow-400 w-6 h-6" /> },
+      { text: "פיצ'רים מתקדמים (A/B Testing, דשבורד, אוטומציות)", icon: <FaRocket className="text-yellow-400 w-6 h-6" /> },
+      { text: "ליווי אישי עד השקה", icon: <FaUserFriends className="text-yellow-400 w-6 h-6" /> },
+      { text: "תמיכה מורחבת", icon: <FaUserFriends className="text-yellow-400 w-6 h-6" /> },
     ],
-    cta: "בחר בחבילת Pixel Elite",
+    cta: "קבל הצעה מותאמת",
     color: "from-yellow-300 via-yellow-100 to-white dark:from-yellow-400 dark:via-yellow-700 dark:to-black",
     border: "border-yellow-400",
-    highlight: true,
-    badge: "המוביל ביותר",
-    aria: "בחר בחבילת Pixel Elite ועבור לטופס יצירת קשר",
+    highlight: false,
+    badge: "מותאם אישית",
+    aria: "בחר בחבילת Custom ועבור לטופס יצירת קשר",
     animation: "animate-fade-in-up",
     delay: "delay-200",
-    fomo: "מספר מקומות מוגבל לחודש!",
-    planId: "PixelElite",
+    planId: "Custom",
   },
 ];
 
@@ -144,7 +299,7 @@ const trustIcons = [
   },
   {
     icon: <FaUserFriends className="text-[#F0B6FF] w-8 h-8" />,
-    label: "+100 Happy Clients",
+    label: "+100",
   },
 ];
 
@@ -182,12 +337,18 @@ const Pricing = ({ onLeadClick }) => (
     <div className="relative z-10 max-w-7xl mx-auto px-4">
       {/* כותרת שיווקית */}
       <h2 className="text-4xl sm:text-5xl font-extrabold text-center text-gray-900 dark:text-white mb-4 animate-fade-in-up">
-        בחרו את המסלול שיקפיץ את העסק שלכם קדימה
+        בחר את המסלול שמייצר לך תוצאה אמיתית
       </h2>
       <p className="text-center text-gray-600 dark:text-gray-400 mb-12 text-lg animate-fade-in-up delay-100">
         כל חבילה כוללת ליווי אישי, אסטרטגיה מותאמת, ותוצאות שמדברות בעד עצמן.<br />
         הצטרפו ל-100+ עסקים שכבר נהנים מדפי נחיתה שממירים באמת.
       </p>
+
+      {/* ROI Calculator – משולב כאן */}
+      <div className="mb-16">
+        <ROIcalculator />
+      </div>
+
       {/* גריד חבילות */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
         {plans.map((plan, idx) => (
@@ -195,8 +356,8 @@ const Pricing = ({ onLeadClick }) => (
             key={plan.name}
             className={`
               group w-full rounded-3xl shadow-2xl
-              ${plan.name === "Pixel Elite"
-                ? "shadow-yellow-200 dark:shadow-yellow-900 ring-4 ring-yellow-300/60 dark:ring-yellow-500/40 scale-110 z-20"
+              ${plan.name === "Custom"
+                ? "shadow-yellow-200 dark:shadow-yellow-900 ring-4 ring-yellow-300/60 dark:ring-yellow-500/40 scale-105 z-20"
                 : plan.highlight
                   ? "shadow-pink-200 dark:shadow-pink-900 scale-105 z-10 ring-4 ring-pink-300/30 dark:ring-pink-500/20"
                   : "shadow-gray-200 dark:shadow-black/20"}
@@ -207,12 +368,12 @@ const Pricing = ({ onLeadClick }) => (
               relative overflow-hidden
               ${plan.animation} ${plan.delay}
             `}
-            style={{ minHeight: 500 }}
+            style={{ minHeight: 520 }}
           >
             {/* Badge */}
             <div className={`
               absolute top-6 left-6 text-xs font-bold px-4 py-1 rounded-full shadow
-              ${plan.name === "Pixel Elite"
+              ${plan.name === "Custom"
                 ? "bg-gradient-to-r from-yellow-400 to-yellow-200 text-yellow-900 border border-yellow-300"
                 : plan.highlight
                   ? "bg-pink-500 text-white animate-bounce"
@@ -221,28 +382,22 @@ const Pricing = ({ onLeadClick }) => (
               {plan.badge}
             </div>
             <h3 className={`text-2xl font-bold mb-2 drop-shadow-lg
-              ${plan.name === "Pixel Elite" ? "text-yellow-900 dark:text-yellow-200" : "text-white"}
+              ${plan.name === "Custom" ? "text-yellow-900 dark:text-yellow-200" : plan.highlight ? "text-pink-100" : "text-white"}
             `}>
               {plan.name}
             </h3>
-            <p className={`text-5xl font-extrabold my-6 drop-shadow-lg
-              ${plan.name === "Pixel Elite" ? "text-yellow-900 dark:text-yellow-100" : "text-white"}
+            <p className={`text-4xl font-extrabold my-2 drop-shadow-lg
+              ${plan.name === "Custom" ? "text-yellow-900 dark:text-yellow-100" : plan.highlight ? "text-pink-100" : "text-white"}
             `}>
               {plan.price}
             </p>
-            {/* FOMO */}
-            <div className={`mb-4 text-base font-bold text-center
-              ${plan.name === "Pixel Elite" ? "text-yellow-900 dark:text-yellow-100" : "text-white/90"}
-              animate-fade-in-up delay-200
-            `}>
-              {plan.fomo}
-            </div>
+            <div className="text-base text-gray-100 dark:text-gray-300 mb-4 text-center">{plan.description}</div>
             <ul className="flex flex-col gap-3 mt-2 mb-8 text-right">
               {plan.features.map((feature, i) => (
                 <li
                   key={i}
                   className={`flex items-center gap-2 text-lg font-medium animate-fade-in-up
-                    ${plan.name === "Pixel Elite" ? "text-yellow-900 dark:text-yellow-100" : "text-white/90"}
+                    ${plan.name === "Custom" ? "text-yellow-900 dark:text-yellow-100" : plan.highlight ? "text-pink-100" : "text-white/90"}
                   `}
                   style={{ animationDelay: `${0.2 + i * 0.07}s` }}
                 >
@@ -256,7 +411,7 @@ const Pricing = ({ onLeadClick }) => (
               onClick={() => scrollToContact(plan.planId)}
               className={`
                 mt-6 px-8 py-3 rounded-xl border-2 font-bold text-lg shadow-lg
-                ${plan.name === "Pixel Elite"
+                ${plan.name === "Custom"
                   ? "bg-gradient-to-r from-yellow-400 to-yellow-200 border-yellow-400 text-yellow-900 hover:from-yellow-500 hover:to-yellow-300 hover:text-black"
                   : plan.highlight
                     ? "bg-gradient-to-r from-pink-500 to-purple-500 border-pink-500 text-white hover:from-white hover:to-white hover:text-pink-600"
@@ -270,7 +425,7 @@ const Pricing = ({ onLeadClick }) => (
             </button>
             {/* שורת ביטחון */}
             <div className={`mt-6 text-xs text-center
-              ${plan.name === "Pixel Elite" ? "text-yellow-900 dark:text-yellow-100" : "text-white/80"}
+              ${plan.name === "Custom" ? "text-yellow-900 dark:text-yellow-100" : "text-white/80"}
             `}>
               100% שביעות רצון – לא מרוצים? לא שילמתם.
             </div>
@@ -320,6 +475,13 @@ const Pricing = ({ onLeadClick }) => (
       }
       .animate-pulse-slow {
         animation: pulse 6s cubic-bezier(.4,0,.6,1) infinite;
+      }
+      @keyframes fade-in {
+        from { opacity: 0; transform: translateY(8px);}
+        to { opacity: 1; transform: translateY(0);}
+      }
+      .animate-fade-in {
+        animation: fade-in 0.3s ease;
       }
       `}
     </style>

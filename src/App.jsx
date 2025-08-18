@@ -15,6 +15,7 @@ import LeadModal from "./sections/LeadModal";
 import EnvelopeButton from "./sections/EnvelopButton";
 import FAQ from "./sections/FAQ";
 
+
 export default function App() {
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -29,13 +30,14 @@ export default function App() {
         <WhyUs />
         <WhatMakesGood onLeadClick={openLeadModal} />
         <Testimonials onLeadClick={openLeadModal}/>
+       
         <Pricing onLeadClick={openLeadModal} />
         <FAQ />
         <ContactMini onLeadClick={openLeadModal} />
         <Footer />
         <LeadModal open={modalOpen} onClose={closeLeadModal} />
       </main>
-      {/* כפתור מעטפה קבוע בפינה */}
+      {/* כפתור מעטפה בפינה */}
       <EnvelopeButton onClick={openLeadModal} />
     </>
   );

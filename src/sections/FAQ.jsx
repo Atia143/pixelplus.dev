@@ -1,11 +1,4 @@
 // FAQ.jsx
-/**
- * קומפוננטת FAQ יוקרתית, רספונסיבית, RTL, עם אקורדיון ואנימציות מתקדמות.
- * עיצוב ממותג, חד, ממורכז, עם חוויית משתמש יוצאת דופן – Pixelplus.dev.
- * קופי ממוקד תועלת, עסקי, ייחודי – ברמת מותג עולמי.
- * כל שאלה מדגישה יתרון פסיכולוגי ומבליטה את הערך של כל חבילה.
- * שדרוג: אין אזכור ל"דוחות" – הכל תועלת, תהליך, תוצאה, ליווי.
- */
 
 import React, { useState } from "react";
 
@@ -15,55 +8,55 @@ const faqData = [
     answer: (
       <>
         <b>Starter:</b> כבר מהיום הראשון תרגיש הבדל – עיצוב ממוקד, מסר חד, וטופס לידים שמוביל כל מבקר לפעולה.<br />
-        <b>Pro:</b> תיהנה גם מ-SEO ואנימציות שמושכות תשומת לב – כך שתבלוט בגוגל ותשאיר רושם.<br />
-        <b>Pixel Elite:</b> כל פנייה הופכת להזדמנות אמיתית – עם A/B Testing ואסטרטגיית שיפור מתקדמת שמביאה תוצאות מוכחות.
+        <b>Growth:</b> תיהנה גם מ-SEO ואנימציות שמושכות תשומת לב – כך שתבלוט בגוגל ותשאיר רושם.<br />
+        <b>Custom:</b> כל פנייה הופכת להזדמנות אמיתית – עם A/B Testing ואסטרטגיית שיפור מתקדמת שמביאה תוצאות מוכחות.
       </>
     ),
-    plans: ["Starter", "Pro", "Pixel Elite"],
+    plans: ["Starter", "Growth", "Custom"],
   },
   {
     question: "מה מבדל את Pixelplus.dev מכל סטודיו אחר?",
     answer: (
       <>
         <b>Starter:</b> ליווי אישי, מחקר שוק, והתאמה מדויקת לעסק שלך – לא עוד תבנית גנרית.<br />
-        <b>Pro:</b> עיצוב יוקרתי, SEO, ואנימציות מתקדמות שמייצרות חוויה בלתי נשכחת.<br />
-        <b>Pixel Elite:</b> אסטרטגיה, ניתוח ביצועים, ושיפור מתמיד – אתה לא עוד לקוח, אתה שותף.
+        <b>Growth:</b> עיצוב יוקרתי, SEO, ואנימציות מתקדמות שמייצרות חוויה בלתי נשכחת.<br />
+        <b>Custom:</b> אסטרטגיה, ניתוח ביצועים, ושיפור מתמיד – אתה לא עוד לקוח, אתה שותף.
       </>
     ),
-    plans: ["Starter", "Pro", "Pixel Elite"],
+    plans: ["Starter", "Growth", "Custom"],
   },
   {
     question: "באילו טכנולוגיות אתם משתמשים, ואיך זה משרת אותי?",
     answer: (
       <>
         <b>Starter:</b> React.js, Tailwind, רספונסיביות מלאה – הדף שלך מהיר, מאובטח, ומותאם לכל מסך.<br />
-        <b>Pro:</b> SEO מתקדם, אנימציות מותאמות – תבלוט בגוגל ותשדר חדשנות.<br />
-        <b>Pixel Elite:</b> כלים לניתוח ביצועים, A/B Testing, והרחבות מתקדמות – מוכן לצמיחה גלובלית.
+        <b>Growth:</b> SEO מתקדם, אנימציות מותאמות – תבלוט בגוגל ותשדר חדשנות.<br />
+        <b>Custom:</b> כלים לניתוח ביצועים, A/B Testing, והרחבות מתקדמות – מוכן לצמיחה גלובלית.
       </>
     ),
-    plans: ["Starter", "Pro", "Pixel Elite"],
+    plans: ["Starter", "Growth", "Custom"],
   },
   {
-    question: "מה ההבדל האמיתי בין Starter, Pro ו-Pixel Elite?",
+    question: "מה ההבדל האמיתי בין Starter, Growth ו- Custom?",
     answer: (
       <>
         <b>Starter:</b> עיצוב אישי, רספונסיביות, טופס לידים – כניסה חכמה לעולם ההמרות.<br />
-        <b>Pro:</b> SEO, אנימציות, תוכן ללא הגבלה – קפיצה מקצועית שמביאה יותר פניות.<br />
-        <b>Pixel Elite:</b> אסטרטגיית המרות, ניתוח ביצועים, A/B Testing – מקסימום תוצאה, מינימום ניחוש.
+        <b>Growth:</b> SEO, אנימציות, תוכן ללא הגבלה – קפיצה מקצועית שמביאה יותר פניות.<br />
+        <b>Custom:</b> אסטרטגיית המרות, ניתוח ביצועים, A/B Testing – מקסימום תוצאה, מינימום ניחוש.
       </>
     ),
-    plans: ["Starter", "Pro", "Pixel Elite"],
+    plans: ["Starter", "Growth", "Custom"],
   },
   {
     question: "איך נראה תהליך הליווי האישי?",
     answer: (
       <>
         <b>Starter:</b> ליווי צמוד משלב האפיון ועד ההשקה – תמיד יש עם מי לדבר.<br />
-        <b>Pro:</b> זמינות גבוהה, שקיפות מלאה, והכוונה שיווקית.<br />
-        <b>Pixel Elite:</b> מעקב שוטף, המלצות לשיפור, ושיפור מתמיד – אתה לא לבד לרגע.
+        <b>Growth:</b> זמינות גבוהה, שקיפות מלאה, והכוונה שיווקית.<br />
+        <b>Custom:</b> מעקב שוטף, המלצות לשיפור, ושיפור מתמיד – אתה לא לבד לרגע.
       </>
     ),
-    plans: ["Starter", "Pro", "Pixel Elite"],
+    plans: ["Starter", "Growth", "Custom"],
   },
   {
     question: "מה קורה אם אני לא מרוצה?",
@@ -72,17 +65,17 @@ const faqData = [
         <b>כל החבילות:</b> 100% שביעות רצון – לא מרוצה? לא שילמת. בלי אותיות קטנות.
       </>
     ),
-    plans: ["Starter", "Pro", "Pixel Elite"],
+    plans: ["Starter", "Growth", "Custom"],
   },
   {
     question: "מה כוללת התמיכה לאחר ההשקה?",
     answer: (
       <>
-        <b>Pro:</b> מעקב ביצועים, שיפורים שוטפים, והתאמות לפי הצורך.<br />
-        <b>Pixel Elite:</b> ליווי אסטרטגי, ניתוחים מתקדמים, ושדרוגים שוטפים.
+        <b>Growth:</b> מעקב ביצועים, שיפורים שוטפים, והתאמות לפי הצורך.<br />
+        <b>Custom:</b> ליווי אסטרטגי, ניתוחים מתקדמים, ושדרוגים שוטפים.
       </>
     ),
-    plans: ["Pro", "Pixel Elite"],
+    plans: ["Growth", "Custom"],
   },
   {
     question: "למי השירות מתאים, ואיך מתחילים?",
@@ -91,14 +84,14 @@ const faqData = [
         <b>כל החבילות:</b> השירות מתאים לעסקים, יזמים וסטארטאפים שרוצים לבלוט, להוביל ולגדול – עם דף שמותאם בדיוק לקהל וליעדים שלכם.
       </>
     ),
-    plans: ["Starter", "Pro", "Pixel Elite"],
+    plans: ["Starter", "Growth", "Custom"],
   },
 ];
 
 const planColors = {
   "Starter": "bg-gradient-to-l from-[#e0e7ff] to-[#f0fdfa] text-blue-900 border-blue-100",
-  "Pro": "bg-gradient-to-l from-[#bae6fd] to-[#e0e7ff] text-blue-800 border-blue-200",
-  "Pixel Elite": "bg-gradient-to-l from-[#f0abfc] via-[#818cf8] to-[#38bdf8] text-white border-transparent shadow-lg",
+  "Growth": "bg-gradient-to-l from-[#bae6fd] to-[#e0e7ff] text-blue-800 border-blue-200",
+  "Custom": "bg-gradient-to-l from-[#f0abfc] via-[#818cf8] to-[#38bdf8] text-white border-transparent shadow-lg",
 };
 
 const FAQ = () => {

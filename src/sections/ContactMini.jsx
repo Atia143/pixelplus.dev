@@ -3,31 +3,30 @@ import React, { useState, useRef } from "react";
 import { FaPaperPlane, FaMagic, FaStar, FaLock, FaBolt, FaSmile } from "react-icons/fa";
 import { HiCheckCircle } from "react-icons/hi";
 
-/**
- * טופס CTA אחרון – ממוקד המרה, פסיכולוגיית משתמשים, אמון, מינימום חיכוך.
- * - כותרת שמדברת תוצאה ("רוצה יותר לקוחות? זה הצעד הראשון")
- * - הישגים/אמון: כוכבים, שיפור המרות, לקוחות מרוצים
- * - טופס קצר, ברור, עם ולידציה, הודעת הצלחה, מסר אמון
- * - עיצוב יוקרתי, אנימציות עדינות, רספונסיביות מלאה
- */
+const industries = ["אישי", "קואצ’ינג", "סטארט-אפ", "נדל״ן", "אחר"];
+const goals = ["להכפיל לידים", "עיצוב פרימיום", "ביצועים + SEO", "אוטומציה", "אחר"];
 
 export default function ContactFinalCTA() {
-  const [fields, setFields] = useState({ name: "", email: "", phone: "" });
+  const [step, setStep] = useState(1);
+  const [fields, setFields] = useState({ industry: "", goal: "", name: "", email: "", phone: "" });
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [sent, setSent] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const successRef = useRef(null);
 
   // ולידציה פסיכולוגית – מסר ברור בשגיאה
   const validate = () => {
     const errs = {};
-    if (!fields.name.trim()) errs.name = "איך נפנה אליך?";
-    if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(fields.email)) errs.email = "מייל לא תקין";
-    if (!/^0\d{8,9}$/.test(fields.phone)) errs.phone = "מספר טלפון לא תקין";
+    if (step === 3) {
+      if (!fields.name.trim()) errs.name = "איך נפנה אליך?";
+      if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(fields.email)) errs.email = "מייל לא תקין";
+      if (!/^0\d{8,9}$/.test(fields.phone)) errs.phone = "מספר טלפון לא תקין";
+    }
     return errs;
   };
 
-  // שליחה ל־Sheety (או כל API)
+  // שליחה ל־Web3Forms
   const handleSubmit = async (e) => {
     e.preventDefault();
     const errs = validate();
@@ -37,30 +36,37 @@ export default function ContactFinalCTA() {
     }
     setSubmitting(true);
     setSent(false);
+    setErrorMsg("");
 
     try {
-      const response = await fetch("https://api.sheety.co/8efcf90425ada56016b70a65cfa92c37/pixelPlusmainlandingpage/lead1", {
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          lead1: {
-            name: fields.name,
-            email: fields.email,
-            phone: fields.phone
-          }
+          access_key: "00cc72fb-5e1a-4b24-b293-38bbdb1a9f33",
+          subject: "פנייה חדשה מהאתר Pixelplus.dev",
+          industry: fields.industry,
+          goal: fields.goal,
+          name: fields.name,
+          email: fields.email,
+          phone: fields.phone,
+          from_name: fields.name,
+          redirect: "", // לא מפנה אוטומטית
         }),
       });
 
-      if (!response.ok) throw new Error("שליחה נכשלה, נסה שוב");
+      const data = await response.json();
+      if (!data.success) throw new Error(data.message || "שליחה נכשלה, נסה שוב");
 
       setSubmitting(false);
       setSent(true);
-      setFields({ name: "", email: "", phone: "" });
+      setFields({ industry: "", goal: "", name: "", email: "", phone: "" });
       setErrors({});
+      setStep(1);
       setTimeout(() => setSent(false), 6000);
     } catch (err) {
       setSubmitting(false);
-      setErrors({ form: err.message || "משהו השתבש, נסה שוב" });
+      setErrorMsg(err.message || "משהו השתבש, נסה שוב");
     }
   };
 
@@ -89,6 +95,9 @@ export default function ContactFinalCTA() {
     );
   }
 
+  // Progress Bar
+  const progress = step === 1 ? "w-1/3" : step === 2 ? "w-2/3" : "w-full";
+
   return (
     <section
       id="contact-final"
@@ -100,14 +109,14 @@ export default function ContactFinalCTA() {
 
       {/* Badge */}
       <div className="absolute top-6 left-6 bg-gradient-to-r from-pink-400 to-blue-400 text-white text-xs font-bold px-5 py-1.5 rounded-full shadow z-10 tracking-wide animate-bounce">
-        שיחת ייעוץ • ללא התחייבות
+        נבדוק אם אנחנו מתאימים לעבוד יחד
       </div>
 
       {/* כותרת ואייקון */}
       <div className="flex items-center gap-3 mb-4 relative z-10">
         <FaMagic className="text-pink-400 w-10 h-10 animate-spin-slow" />
         <h3 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white drop-shadow-lg">
-          רוצה יותר לקוחות? זה הצעד הראשון.
+          רוצה יותר לקוחות? בוא נבדוק התאמה.
         </h3>
       </div>
 
@@ -124,68 +133,120 @@ export default function ContactFinalCTA() {
         </span>
       </div>
 
-      {/* טופס */}
+      {/* Progress Bar */}
+      <div className="w-full h-2 bg-white/20 rounded mb-8 overflow-hidden">
+        <div className={`h-full bg-gradient-to-r from-[#6CE7F3] to-[#F0B6FF] ${progress} transition-all duration-500`} />
+      </div>
+
+      {/* טופס רב-שלבי */}
       <form className="space-y-4 relative z-10" onSubmit={handleSubmit} autoComplete="off">
-        <div className="flex gap-3">
-          <input
-            type="text"
-            name="name"
-            placeholder="שם מלא"
-            className="w-1/2 px-4 py-3 rounded-lg border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
-            value={fields.name}
-            onChange={e => setFields(f => ({ ...f, name: e.target.value }))}
-            required
-            disabled={submitting}
-            aria-label="שם מלא"
-          />
-          <input
-            type="tel"
-            name="phone"
-            placeholder="מספר טלפון"
-            className="w-1/2 px-4 py-3 rounded-lg border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
-            value={fields.phone}
-            onChange={e => setFields(f => ({ ...f, phone: e.target.value }))}
-            required
-            disabled={submitting}
-            aria-label="מספר טלפון"
-          />
-        </div>
-        <input
-          type="email"
-          name="email"
-          placeholder="אימייל"
-          className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
-          value={fields.email}
-          onChange={e => setFields(f => ({ ...f, email: e.target.value }))}
-          required
-          disabled={submitting}
-          aria-label="אימייל"
-        />
-        {/* הודעות שגיאה */}
-        {(errors.name || errors.phone || errors.email || errors.form) && (
-          <div className="text-red-500 text-sm text-right">
-            {errors.name || errors.phone || errors.email || errors.form}
-          </div>
+        {step === 1 && (
+          <>
+            <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-4 text-center">
+              באיזה תחום העסק שלך?
+            </h4>
+            <div className="grid grid-cols-2 gap-3 mb-4">
+              {industries.map(opt => (
+                <button
+                  key={opt}
+                  type="button"
+                  onClick={() => { setFields(f => ({ ...f, industry: opt })); setStep(2); }}
+                  className={`px-4 py-2 rounded-lg bg-white/20 text-gray-900 dark:text-white font-semibold hover:bg-[#6CE7F3]/40 transition ${fields.industry === opt ? "ring-2 ring-blue-400" : ""}`}
+                >
+                  {opt}
+                </button>
+              ))}
+            </div>
+          </>
         )}
-        <button
-          type="submit"
-          className="w-full mt-2 py-3 rounded-lg bg-gradient-to-r from-pink-400 to-blue-400 hover:from-blue-500 hover:to-pink-500 text-white font-bold text-lg shadow-lg transition-all flex items-center justify-center gap-2 animate-fade-in-up"
-          disabled={submitting}
-        >
-          {submitting ? (
-            <FaPaperPlane className="w-5 h-5 animate-fly" />
-          ) : (
-            <>
-              <FaPaperPlane className="w-5 h-5" />
-              שלח פרטים – מתחילים להוביל
-            </>
-          )}
-        </button>
-        {/* מסר אמון */}
-        <div className="flex text-right text-sm text-[#bfc8e6] gap-2 animate-fade-in-up delay-100">
-          <FaLock className="text-lg" />
-          <span>הפרטים שמורים איתנו בלבד  </span>
-        </div>
+
+        {step === 2 && (
+          <>
+            <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-4 text-center">
+              מה המטרה העיקרית שלך?
+            </h4>
+            <div className="grid grid-cols-2 gap-3 mb-4">
+              {goals.map(opt => (
+                <button
+                  key={opt}
+                  type="button"
+                  onClick={() => { setFields(f => ({ ...f, goal: opt })); setStep(3); }}
+                  className={`px-4 py-2 rounded-lg bg-white/20 text-gray-900 dark:text-white font-semibold hover:bg-[#96B3FF]/40 transition ${fields.goal === opt ? "ring-2 ring-pink-400" : ""}`}
+                >
+                  {opt}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
+
+        {step === 3 && (
+          <>
+            <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-4 text-center">
+              השאר פרטים – ניצור קשר רק אם יש התאמה!
+            </h4>
+            <div className="flex gap-3">
+              <input
+                type="text"
+                name="name"
+                placeholder="שם מלא"
+                className="w-1/2 px-4 py-3 rounded-lg border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+                value={fields.name}
+                onChange={e => setFields(f => ({ ...f, name: e.target.value }))}
+                required
+                disabled={submitting}
+                aria-label="שם מלא"
+              />
+              <input
+                type="tel"
+                name="phone"
+                placeholder="מספר טלפון"
+                className="w-1/2 px-4 py-3 rounded-lg border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+                value={fields.phone}
+                onChange={e => setFields(f => ({ ...f, phone: e.target.value }))}
+                required
+                disabled={submitting}
+                aria-label="מספר טלפון"
+              />
+            </div>
+            <input
+              type="email"
+              name="email"
+              placeholder="אימייל"
+              className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+              value={fields.email}
+              onChange={e => setFields(f => ({ ...f, email: e.target.value }))}
+              required
+              disabled={submitting}
+              aria-label="אימייל"
+            />
+            {/* הודעות שגיאה */}
+            {(errors.name || errors.phone || errors.email || errors.form || errorMsg) && (
+              <div className="text-red-500 text-sm text-right">
+                {errors.name || errors.phone || errors.email || errors.form || errorMsg}
+              </div>
+            )}
+            <button
+              type="submit"
+              className="w-full mt-2 py-3 rounded-lg bg-gradient-to-r from-pink-400 to-blue-400 hover:from-blue-500 hover:to-pink-500 text-white font-bold text-lg shadow-lg transition-all flex items-center justify-center gap-2 animate-fade-in-up"
+              disabled={submitting}
+            >
+              {submitting ? (
+                <FaPaperPlane className="w-5 h-5 animate-fly" />
+              ) : (
+                <>
+                  <FaPaperPlane className="w-5 h-5" />
+                  שלח פרטים – מתחילים להוביל
+                </>
+              )}
+            </button>
+            {/* מסר אמון */}
+            <div className="flex text-right text-sm text-[#bfc8e6] gap-2 animate-fade-in-up delay-100">
+              <FaLock className="text-lg" />
+              <span>הפרטים שמורים איתנו בלבד  </span>
+            </div>
+          </>
+        )}
       </form>
 
       {/* Custom Animations */}

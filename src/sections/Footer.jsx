@@ -32,9 +32,10 @@ export default function Footer() {
       {/* שורת אמון וסמל */}
       <div className=
       "dir=rtl flex flex-col sm:flex-row items-center justify-between mt-8 max-w-6xl mx-auto gap-4 text-xs text-gray-400">
-        <div className="flex items-center gap-2">
+        <div className=
+        "flex items-center gap-2 dir=rtl">
           <FaGoogle className="w-5 h-5 text-[#4285F4]" />
-            Google • +100 לקוחות מרוצים
+          +100 •  Google  
         </div>
         <div>
           הפרטים שמורים איתנו בלבד • כל הזכויות שמורות ליובל אטיה © {new Date().getFullYear()}
